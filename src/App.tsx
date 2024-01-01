@@ -2,11 +2,10 @@ import React from "react";
 import "./App.css";
 import { Header } from "./componenst/Header";
 import styled from "styled-components";
-import { Input, Layout, Typography, Menu, Button, Dropdown } from "antd";
-import logo from "./assets/logo.svg";
-import { GlobalOutlined } from "@ant-design/icons";
 import { Footer } from "./componenst/Footer";
 import { Row, Col } from "antd";
+import { Carousel } from "./componenst/Carousel";
+import { SideMenu } from "./componenst/sideMenu";
 
 const StyledPage = styled.div`
   width: 1230px;
@@ -22,10 +21,10 @@ function App() {
       <StyledPage>
         <Row style={{ marginTop: 20 }}>
           <Col span={6}>
-            <div style={{ background: "red" }}>多重菜单</div>
+            <SideMenu />
           </Col>
           <Col span={18}>
-            <div style={{ background: "blue" }}>走马灯</div>
+            <Carousel />
           </Col>
         </Row>
       </StyledPage>

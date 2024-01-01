@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Dropdown, Input, Layout, Menu, Typography } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
-import logo from "../assets/logo.svg";
+import logo from "../../assets/logo.svg";
 import styled from "styled-components";
 
 const AppContainer = styled.div`
