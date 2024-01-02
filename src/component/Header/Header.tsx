@@ -3,6 +3,7 @@ import { Button, Dropdown, Input, Layout, Menu, Typography } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import logo from "../../assets/logo.svg";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const AppContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.08);
@@ -78,30 +79,34 @@ const StyledMenu = styled(Menu)`
   color: #f5f5f5 !important;
 `;
 export const Header = () => {
+  const navigate = useNavigate();
   return (
     <>
       <AppContainer>
         <AppHeader>
           <TopHeader>
             <InnerDiv>
-              <Typography.Text style={{ wordBreak: "keep-all" }}>
-                让旅游更幸福
-              </Typography.Text>
-              <Dropdown.Button
-                style={{ marginLeft: 15 }}
-                menu={{
-                  items: [
-                    { key: "1", label: "Chinese" },
-                    { key: "2", label: "English" },
-                  ],
-                }}
-                icon={<GlobalOutlined />}
-              >
-                语言
-              </Dropdown.Button>
+              <span onClick={() => navigate("/home")}>
+                <Typography.Text style={{ wordBreak: "keep-all" }}>
+                  让旅游更幸福
+                </Typography.Text>
+                <Dropdown.Button
+                  style={{ marginLeft: 15 }}
+                  menu={{
+                    items: [
+                      { key: "1", label: "Chinese" },
+                      { key: "2", label: "English" },
+                    ],
+                  }}
+                  icon={<GlobalOutlined />}
+                >
+                  语言
+                </Dropdown.Button>
+              </span>
+
               <StyledButtonGroup>
-                <Button>Register</Button>
-                <Button>Login</Button>
+                <Button onClick={() => navigate("/register")}>Register</Button>
+                <Button onClick={() => navigate("/signin")}>Login</Button>
               </StyledButtonGroup>
             </InnerDiv>
           </TopHeader>
