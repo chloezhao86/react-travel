@@ -4,6 +4,8 @@ import { GlobalOutlined } from "@ant-design/icons";
 import logo from "../../assets/logo.svg";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { CHANGE_LANGUAGE } from "../../redux/languageSlice";
 
 const AppContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.08);
@@ -80,30 +82,40 @@ const StyledMenu = styled(Menu)`
 `;
 export const Header = () => {
   const navigate = useNavigate();
+  //@ts-ignore
+  const language = useSelector((state) => state.language);
+
+  const dispatch = useDispatch();
   return (
     <>
       <AppContainer>
         <AppHeader>
           <TopHeader>
             <InnerDiv>
-              <span onClick={() => navigate("/home")}>
+              <span>
                 <Typography.Text style={{ wordBreak: "keep-all" }}>
                   让旅游更幸福
                 </Typography.Text>
                 <Dropdown.Button
                   style={{ marginLeft: 15 }}
                   menu={{
-                    items: [
-                      { key: "1", label: "Chinese" },
-                      { key: "2", label: "English" },
-                    ],
+                    items: language.languageList.map((l: any) => {
+                      return {
+                        key: l.code,
+                        label: l.name,
+                      };
+                    }),
+                    onClick: (v) => {
+                      dispatch(CHANGE_LANGUAGE(v.key));
+                      console.log("v", v);
+                    },
                   }}
                   icon={<GlobalOutlined />}
                 >
                   语言
                 </Dropdown.Button>
               </span>
-
+              <p>{language.language}</p>
               <StyledButtonGroup>
                 <Button onClick={() => navigate("/register")}>Register</Button>
                 <Button onClick={() => navigate("/signin")}>Login</Button>
@@ -113,7 +125,12 @@ export const Header = () => {
           <StyledLayoutHeader>
             <AppLogo src={logo} alt="" />
             <MainHeader level={3}>React Travel</MainHeader>
-            <StyledInputSearch placeholder={"请输入旅游目的地，主题或关键字"} />
+            <StyledInputSearch
+              placeholder={"请输入旅游目的地，主题或关键字"}
+              onSearch={(keywords) => {
+                navigate("/search/" + keywords);
+              }}
+            />
           </StyledLayoutHeader>
           <StyledMenu
             mode={"horizontal"}
