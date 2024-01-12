@@ -1,11 +1,11 @@
 import { UserLayout } from "../../../layout/userLayout";
-import SignInForm from "./SignInForm";
+import RegisterForm from "./RegisterForm";
 
-export const SignInPage = () => {
+export const RegisterPage = () => {
   return (
     <>
       <UserLayout>
-        <SignInForm />
+        <RegisterForm />
       </UserLayout>
     </>
   );

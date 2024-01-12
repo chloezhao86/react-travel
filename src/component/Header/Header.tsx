@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Dropdown, Input, Layout, Menu, Typography } from "antd";
 import { GlobalOutlined } from "@ant-design/icons";
 import logo from "../../assets/logo.svg";
@@ -6,6 +6,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { CHANGE_LANGUAGE } from "../../redux/languageSlice";
+import jwt_decode, { JwtPayload as DefaultJwtPayload } from "jwt-decode";
+import { userSlice } from "../../redux/user/slice";
 
 const AppContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.08);
@@ -80,12 +82,29 @@ const StyledMenu = styled(Menu)`
   background-color: #1976d2 !important;
   color: #f5f5f5 !important;
 `;
+
+interface JwtPayload extends DefaultJwtPayload {
+  username: string;
+}
+
 export const Header = () => {
   const navigate = useNavigate();
+  const jwt = useSelector((s: any) => s.user.token);
   //@ts-ignore
   const language = useSelector((state) => state.language);
-
+  const [username, setUsername] = useState("");
+  useEffect(() => {
+    if (jwt) {
+      const decodedJwt = jwt_decode<JwtPayload>(jwt);
+      // @ts-ignore
+      setUsername(decodedJwt.aud);
+    }
+  }, [jwt]);
   const dispatch = useDispatch();
+  const onLogOut = () => {
+    dispatch(userSlice.actions.logOut());
+    navigate("/");
+  };
   return (
     <>
       <AppContainer>
@@ -116,10 +135,22 @@ export const Header = () => {
                 </Dropdown.Button>
               </span>
               <p>{language.language}</p>
-              <StyledButtonGroup>
-                <Button onClick={() => navigate("/register")}>Register</Button>
-                <Button onClick={() => navigate("/signin")}>Login</Button>
-              </StyledButtonGroup>
+              {jwt ? (
+                <StyledButtonGroup>
+                  <span>
+                    <Typography.Text>{username}</Typography.Text>
+                  </span>
+                  <Button>shopping cart</Button>
+                  <Button onClick={onLogOut}>Log Out</Button>
+                </StyledButtonGroup>
+              ) : (
+                <StyledButtonGroup>
+                  <Button onClick={() => navigate("/register")}>
+                    Register
+                  </Button>
+                  <Button onClick={() => navigate("/signin")}>Login</Button>
+                </StyledButtonGroup>
+              )}
             </InnerDiv>
           </TopHeader>
           <StyledLayoutHeader>

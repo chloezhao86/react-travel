@@ -16,13 +16,6 @@ export const ProductImage = ({
   price,
   title,
 }: PropsType) => {
-  console.log("ProductImage", {
-    id,
-    size,
-    imageSrc,
-    price,
-    title,
-  });
   return (
     <>
       <Link to={`/detail/${id}`}>
