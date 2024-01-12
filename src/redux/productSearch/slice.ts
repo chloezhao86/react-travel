@@ -21,7 +21,7 @@ export const searchProduct = createAsyncThunk(
     nextPage: number | string;
     pageSize: number | string;
   }) => {
-    let url = `http://82.157.43.:8080/api/touristRoutes?pagenumber=${paramaters.nextPage}&pagesize=${paramaters.pageSize}`;
+    let url = `http://82.157.43.234:8080/api/touristRoutes?pagenumber=${paramaters.nextPage}&pagesize=${paramaters.pageSize}`;
     if (paramaters.keywords) {
       url += `&keyword=${paramaters.keywords}`;
     }
